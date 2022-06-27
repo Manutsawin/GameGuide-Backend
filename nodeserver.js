@@ -4,9 +4,11 @@ const { urlencoded } = require('express')
 const routers=require('./routes');
 const app = express()
 const sha256 = require('crypto-js/sha256.js');
+const bodyParser = require('body-parser')
 
 app.use(cors());
 app.use(express.json(urlencoded({extended:true})))
+app.use(bodyParser.json())
 
 const db = require("./models");
 db.sequelize.sync();

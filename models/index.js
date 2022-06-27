@@ -22,4 +22,5 @@ db.sequelize = sequelize;
 db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.character = require("./character.model.js")(sequelize, Sequelize);
+db.upload = require("./upload.model")(sequelize, Sequelize);
 module.exports = db;

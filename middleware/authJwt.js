@@ -4,7 +4,8 @@ const db = require("../models");
 const User = db.user;
 
 verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
+  let bearerHeader = req.headers["authorization"];
+  let token = bearerHeader.split(' ')[1]
   if (!token) {
     return res.status(403).send({
       message: "No token provided!"
@@ -21,72 +22,30 @@ verifyToken = (req, res, next) => {
   });
 };
 
-// isAdmin = (req, res, next) => {
-//   User.findByPk(req.userId).then(user => {
-//     user.getRoles().then(roles => {
-//       for (let i = 0; i < roles.length; i++) {
-//         if (roles[i].name === "admin") {
-//           next();
-//           return;
-//         }
-//       }
-//       res.status(403).send({
-//         message: "Require Admin Role!"
-//       });
-//       return;
-//     });
-//   });
-// };
-
-isModerator = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
-      for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === "moderator") {
-          next();
-          return;
-        }
-      }
-      res.status(403).send({
-        message: "Require Moderator Role!"
-      });
-    });
-  });
-};
-
 isAdmin = (req, res, next) => {
-
-  User.findByPk(req.body.userId).then(user => {
-
-    console.log(user.role)
-    next();
-    return;
-    
-    //นี่แค่ทดสอบ            ต้องตรวจสอบจาก token ที่ decode 
-
-
-    // user.getRoles().then(roles => {
-    //   for (let i = 0; i < roles.length; i++) {
-    //     if (roles[i].name === "moderator") {
-    //       next();
-    //       return;
-    //     }
-    //     if (roles[i].name === "admin") {
-    //       next();
-    //       return;
-    //     }
-    //   }
-    //   res.status(403).send({
-    //     message: "Require Moderator or Admin Role!"
-    //   });
-    // });
+  let bearerHeader = req.headers["authorization"];
+  let token = bearerHeader.split(' ')[1]
+  if (!token) {
+    return res.status(403).send({
+      message: "No token provided!"
+    });
+  }
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({
+        message: "Unauthorized!"
+      });
+    }
+    else if(decoded.role=="Admin")
+    {
+      next();
+      return;
+    }
   });
 };
 
 const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
-  isModerator: isModerator,
-  // isModeratorOrAdmin: isModeratorOrAdmin
 };
 module.exports = authJwt;

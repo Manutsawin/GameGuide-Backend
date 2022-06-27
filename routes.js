@@ -4,6 +4,9 @@ const tutorials = require("./controllers/tutorial.controller.js");
 const { verifySignUp } = require("./middleware");
 const { authJwt } = require("./middleware");
 const controller = require("./controllers/auth.controller");
+const controllerChar = require("./controllers/character.controller");
+const controllerUpload = require("./controllers/upload.controller");
+const upload = require('multer')();
 
 
 
@@ -21,10 +24,12 @@ router.post(
 router.post(
   "/addHero",
   [
+    authJwt.verifyToken,
     authJwt.isAdmin,
   ],
-  controller.signup
+  controllerChar.create
 );
+
 
 
 
@@ -32,30 +37,32 @@ router.post("/auth/signin", controller.signin);
 
 //------->
 
+router.post("/upload", upload.any(),controllerUpload.uploadPic);
+router.get("/allPic", controllerUpload.getAllPic);
 
 
 //Tutorial------->
 
-// Create a new Tutorial
-router.post("/tutorials", tutorials.create);
+// // Create a new Tutorial
+// router.post("/tutorials", tutorials.create);
 
-// Retrieve all Tutorials
-router.get("/tutorials", tutorials.findAll);
+// // Retrieve all Tutorials
+// router.get("/tutorials", tutorials.findAll);
 
-// Retrieve all published Tutorials
-router.get("/published", tutorials.findAllPublished);
+// // Retrieve all published Tutorials
+// router.get("/published", tutorials.findAllPublished);
 
-// Retrieve a single Tutorial with id
-router.get("/:id", tutorials.findOne);
+// // Retrieve a single Tutorial with id
+// router.get("/:id", tutorials.findOne);
 
-// Update a Tutorial with id
-router.put("/:id", tutorials.update);
+// // Update a Tutorial with id
+// router.put("/:id", tutorials.update);
 
-// Delete a Tutorial with id
-router.delete("/:id", tutorials.delete);
+// // Delete a Tutorial with id
+// router.delete("/:id", tutorials.delete);
 
-// Delete all Tutorials
-router.delete("/", tutorials.deleteAll);
+// // Delete all Tutorials
+// router.delete("/", tutorials.deleteAll);
 
 //------->
 
