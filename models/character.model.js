@@ -3,23 +3,20 @@ module.exports = (sequelize, Sequelize) => {
       name: {
         type: Sequelize.STRING
       },
-      pic: {
-        type: Sequelize.STRING
-      },
       role: {
         type: Sequelize.ARRAY(Sequelize.STRING)
       },
-      item:{
-        type: Sequelize.ARRAY(Sequelize.JSON)
-      },
-      enchantment:{
-        type: Sequelize.ARRAY(Sequelize.JSON)
-      },
-      tear:{
+      range:{
         type: Sequelize.STRING
       },
-      position:{
-        type: Sequelize.ARRAY(Sequelize.STRING)
+      imageType: {
+        type: Sequelize.STRING
+      },
+      imageName:{
+        type: Sequelize.STRING
+      },
+      imageData:{
+        type: Sequelize.BLOB
       }
     });
   

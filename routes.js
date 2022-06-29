@@ -27,7 +27,13 @@ router.post(
     authJwt.verifyToken,
     authJwt.isAdmin,
   ],
+  upload.any(),
   controllerChar.create
+);
+
+router.get(
+  "/getAllHero",
+  controllerChar.getAll
 );
 
 

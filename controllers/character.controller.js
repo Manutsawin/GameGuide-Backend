@@ -4,22 +4,19 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
     
-    if (!req.body.name||!req.body.role||!req.body.item||!req.body.enchantment||!req.body.tear||!req.body.position) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
-        return;
-    }
-
+    // if (!req.body.name||!req.body.role||!req.body.item||!req.body.enchantment||!req.body.tear||!req.body.position) {
+    //     res.status(400).send({
+    //         message: "Content can not be empty!"
+    //     });
+    //     return;
+    // }
     const character = {
-
-        name:req.body.name,
-        role:req.body.role,
-        item:req.body.item,
-        enchantment:req.body.enchantment,
-        tear:req.body.tear,
-        position:req.body.position
-
+      name:req.body.name,
+      role:req.body.role,
+      range:req.body.range,
+      imageType: req.files[0].mimetype,
+      imageName: req.files[0].originalname,
+      imageData: req.files[0].buffer,
     };
 
     Character.create(character)
@@ -36,8 +33,15 @@ exports.create = (req, res) => {
 
 exports.getAll = (req, res) => {
     Character.findAll()
-      .then(data => {
-        res.send(data);
+      .then(projects => {
+        projects.map(project => {
+          const projectImage = project.imageData.toString('base64')
+          project['imageData'] = projectImage
+        });
+        return projects;
+      })
+      .then(projects => {
+        return res.status(200).json({ projects: projects })
       })
       .catch(err => {
         res.status(500).send({
