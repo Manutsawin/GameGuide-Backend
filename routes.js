@@ -6,6 +6,7 @@ const { authJwt } = require("./middleware");
 const controller = require("./controllers/auth.controller");
 const controllerChar = require("./controllers/character.controller");
 const controllerUpload = require("./controllers/upload.controller");
+const controllerTier = require("./controllers/tier.controller");
 const upload = require('multer')();
 
 
@@ -46,6 +47,16 @@ router.post("/auth/signin", controller.signin);
 router.post("/upload", upload.any(),controllerUpload.uploadPic);
 router.get("/allPic", controllerUpload.getAllPic);
 
+
+router.post("/tier", );
+
+router.post(
+  "/tier",
+  [
+    authJwt.verifyTokenUser,
+  ],
+  controllerTier.create
+);
 
 //Tutorial------->
 
