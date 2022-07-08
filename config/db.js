@@ -1,6 +1,6 @@
 
 // module.exports = {
-//     HOST: "z",
+//     HOST: "localhost",
 //     USER: "tuser",
 //     port: 5432,
 //     PASSWORD: "369361",
@@ -23,7 +23,7 @@ module.exports = {
   DB: "d52hmf0oigq65g",
   dialect: "postgres",
   pool: {
-    max: 5,
+    max: 5, 
     min: 0,
     acquire: 30000,
     idle: 10000

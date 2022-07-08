@@ -15,10 +15,13 @@ db.sequelize.sync();
 
 
 
-app.listen(process.env.PORT||2000,()=>{
-    console.log('Sever started')
-})
+// app.listen(process.env.PORT,()=>{
+//     console.log('Sever started')
+// })
 
+app.listen(process.env.PORT||2000,()=>{
+  console.log('Sever started')
+})
 
 app.use(function(req, res, next) {
     res.header(
