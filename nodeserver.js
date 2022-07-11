@@ -13,12 +13,6 @@ app.use(bodyParser.json())
 const db = require("./models");
 db.sequelize.sync();
 
-
-
-// app.listen(process.env.PORT,()=>{
-//     console.log('Sever started')
-// })
-
 app.listen(process.env.PORT||2000,()=>{
   console.log('Sever started')
 })
